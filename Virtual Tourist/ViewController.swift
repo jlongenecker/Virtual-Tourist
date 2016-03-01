@@ -40,18 +40,13 @@ class ViewController: UIViewController, MKMapViewDelegate {
         
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewDidAppear(animated: Bool) {
         let fileExists = checkIfFileExists()
         if fileExists {
             loadMapPosition()
         } else {
             print("Unable to load map position")
         }
-        
-        
-    }
-    
-    override func viewDidAppear(animated: Bool) {
         viewLoaded = true
     }
     
@@ -61,8 +56,6 @@ class ViewController: UIViewController, MKMapViewDelegate {
             map.setVisibleMapRect(mapRectTest, animated: false)
             print("Savedmap \(map.visibleMapRect)")
             print("MapRectTest \(mapRectTest.origin.x), \(mapRectTest.origin.y) \(mapRectTest.size.width) \(mapRectTest.size.height)")
-            map.setVisibleMapRect(MKMapRect(origin: MKMapPoint(x: mapRectTest.origin.x, y: mapRectTest.origin.y), size: MKMapSize(width: mapRectTest.size.width, height: mapRectTest.size.height)), animated: true)
-            print("Savedmap \(map.visibleMapRect)")
         }
     }
     
