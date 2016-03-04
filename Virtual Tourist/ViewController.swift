@@ -33,10 +33,10 @@ class ViewController: UIViewController, MKMapViewDelegate {
         super.viewDidLoad()
         
         setupGestureRecognizer()
-        pinArray = fetchAllPins()
-        reloadPins()
-        
-        
+        dispatch_async(dispatch_get_main_queue(), {
+            self.pinArray = self.fetchAllPins()
+            self.reloadPins()
+        })
         
     }
     
