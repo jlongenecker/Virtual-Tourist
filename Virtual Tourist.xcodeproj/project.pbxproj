@@ -18,6 +18,8 @@
 		5392F3F81C8110EA00581E34 /* Virtual_TouristTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5392F3F71C8110EA00581E34 /* Virtual_TouristTests.swift */; };
 		5392F4031C8110EA00581E34 /* Virtual_TouristUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5392F4021C8110EA00581E34 /* Virtual_TouristUITests.swift */; };
 		5392F44E1C849E1900581E34 /* mapViewSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5392F44D1C849E1900581E34 /* mapViewSize.swift */; };
+		D512C6631C98A69A00E505DD /* VTClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D512C6621C98A69A00E505DD /* VTClient.swift */; };
+		D512C6651C98A8E900E505DD /* VTConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D512C6641C98A8E900E505DD /* VTConstants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +57,8 @@
 		5392F4021C8110EA00581E34 /* Virtual_TouristUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Virtual_TouristUITests.swift; sourceTree = "<group>"; };
 		5392F4041C8110EA00581E34 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5392F44D1C849E1900581E34 /* mapViewSize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = mapViewSize.swift; sourceTree = "<group>"; };
+		D512C6621C98A69A00E505DD /* VTClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VTClient.swift; sourceTree = "<group>"; };
+		D512C6641C98A8E900E505DD /* VTConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VTConstants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +100,8 @@
 				53237B5E1C84F16D0025FEEE /* CoreDataStackManager.swift */,
 				5392F44D1C849E1900581E34 /* mapViewSize.swift */,
 				53237B641C84F6DA0025FEEE /* locationPin.swift */,
+				D512C6621C98A69A00E505DD /* VTClient.swift */,
+				D512C6641C98A8E900E505DD /* VTConstants.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -296,9 +302,11 @@
 				5392F44E1C849E1900581E34 /* mapViewSize.swift in Sources */,
 				5392F3E21C8110EA00581E34 /* ViewController.swift in Sources */,
 				5392F3E81C8110EA00581E34 /* Virtual_Tourist.xcdatamodeld in Sources */,
+				D512C6651C98A8E900E505DD /* VTConstants.swift in Sources */,
 				53237B5F1C84F16D0025FEEE /* CoreDataStackManager.swift in Sources */,
 				53237B651C84F6DA0025FEEE /* locationPin.swift in Sources */,
 				5392F3E01C8110EA00581E34 /* AppDelegate.swift in Sources */,
+				D512C6631C98A69A00E505DD /* VTClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

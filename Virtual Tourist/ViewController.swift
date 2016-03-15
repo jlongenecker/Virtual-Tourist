@@ -114,6 +114,10 @@ class ViewController: UIViewController, MKMapViewDelegate {
             map.addAnnotation(annotation)
             longPress = true
             
+            let flickerSearch = VTClient()
+            
+            flickerSearch.beginFlickrSearch(dictionary["latitude"]!, longitude: dictionary["longitude"]!)
+            
         }
         if gestureRecognizer.state == .Ended {
             longPress = false
@@ -191,8 +195,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
             }
             
         }
-        
-        
+
     }
     
 
