@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		53237B5F1C84F16D0025FEEE /* CoreDataStackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53237B5E1C84F16D0025FEEE /* CoreDataStackManager.swift */; };
 		53237B651C84F6DA0025FEEE /* locationPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53237B641C84F6DA0025FEEE /* locationPin.swift */; };
+		538CA3881C99A64F009162E3 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 538CA3871C99A64F009162E3 /* Photo.swift */; };
+		538CA38C1C99A912009162E3 /* VTConvenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 538CA38B1C99A912009162E3 /* VTConvenience.swift */; };
 		5392F3E01C8110EA00581E34 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5392F3DF1C8110EA00581E34 /* AppDelegate.swift */; };
 		5392F3E21C8110EA00581E34 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5392F3E11C8110EA00581E34 /* ViewController.swift */; };
 		5392F3E51C8110EA00581E34 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5392F3E31C8110EA00581E34 /* Main.storyboard */; };
@@ -42,6 +44,8 @@
 /* Begin PBXFileReference section */
 		53237B5E1C84F16D0025FEEE /* CoreDataStackManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStackManager.swift; sourceTree = "<group>"; };
 		53237B641C84F6DA0025FEEE /* locationPin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = locationPin.swift; sourceTree = "<group>"; };
+		538CA3871C99A64F009162E3 /* Photo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
+		538CA38B1C99A912009162E3 /* VTConvenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VTConvenience.swift; path = ../VTConvenience.swift; sourceTree = "<group>"; };
 		5392F3DC1C8110EA00581E34 /* Virtual Tourist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Virtual Tourist.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5392F3DF1C8110EA00581E34 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5392F3E11C8110EA00581E34 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -101,7 +105,9 @@
 				5392F44D1C849E1900581E34 /* mapViewSize.swift */,
 				53237B641C84F6DA0025FEEE /* locationPin.swift */,
 				D512C6621C98A69A00E505DD /* VTClient.swift */,
+				538CA38B1C99A912009162E3 /* VTConvenience.swift */,
 				D512C6641C98A8E900E505DD /* VTConstants.swift */,
+				538CA3871C99A64F009162E3 /* Photo.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -302,11 +308,13 @@
 				5392F44E1C849E1900581E34 /* mapViewSize.swift in Sources */,
 				5392F3E21C8110EA00581E34 /* ViewController.swift in Sources */,
 				5392F3E81C8110EA00581E34 /* Virtual_Tourist.xcdatamodeld in Sources */,
+				538CA3881C99A64F009162E3 /* Photo.swift in Sources */,
 				D512C6651C98A8E900E505DD /* VTConstants.swift in Sources */,
 				53237B5F1C84F16D0025FEEE /* CoreDataStackManager.swift in Sources */,
 				53237B651C84F6DA0025FEEE /* locationPin.swift in Sources */,
 				5392F3E01C8110EA00581E34 /* AppDelegate.swift in Sources */,
 				D512C6631C98A69A00E505DD /* VTClient.swift in Sources */,
+				538CA38C1C99A912009162E3 /* VTConvenience.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

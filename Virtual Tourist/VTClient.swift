@@ -22,19 +22,35 @@ class VTClient: NSObject {
   
     //MARK: Search Flickr Photos
     
-    func beginFlickrSearch(lattitude: Double, longitude: Double)->NSURLSessionDataTask {
+    func beginFlickrSearch(lattitude: Double, longitude: Double, page: Int?, completionHandler:(success: Bool, parsedReults: AnyObject?, error: NSError?)->Void)->NSURLSessionDataTask {
+        let firstPage = "1"
+        var methodArguements = [String:AnyObject]()
+        if let page = page {
+            /* 1. Set the parameters */
+            methodArguements = [
+                "method":VTClient.Constants.flickMethodName,
+                "api_key" : VTClient.Constants.flickAPI,
+                "bbox" : formatCorrdinatesForBoundingBox(lattitude, longitude: longitude),
+                "safe_search": VTClient.ParameterKeys.safe_search,
+                "extras" : VTClient.ParameterKeys.extras,
+                "format" : VTClient.ParameterKeys.data_format,
+                "nojsoncallback" : VTClient.ParameterKeys.no_json_callback,
+                "page": String(page)
+            ]
+        } else {
+            
+            methodArguements = [
+                "method":VTClient.Constants.flickMethodName,
+                "api_key" : VTClient.Constants.flickAPI,
+                "bbox" : formatCorrdinatesForBoundingBox(lattitude, longitude: longitude),
+                "safe_search": VTClient.ParameterKeys.safe_search,
+                "extras" : VTClient.ParameterKeys.extras,
+                "format" : VTClient.ParameterKeys.data_format,
+                "nojsoncallback" : VTClient.ParameterKeys.no_json_callback,
+                "page": firstPage
+            ]
+        }
         
-        
-        /* 1. Set the parameters */
-        let methodArguements = [
-            "method":VTClient.Constants.flickMethodName,
-            "api_key" : VTClient.Constants.flickAPI,
-            "bbox" : formatCorrdinatesForBoundingBox(lattitude, longitude: longitude),
-            "safe_search": VTClient.ParameterKeys.safe_search,
-            "extras" : VTClient.ParameterKeys.extras,
-            "format" : VTClient.ParameterKeys.data_format,
-            "nojsoncallback" : VTClient.ParameterKeys.no_json_callback
-        ]
         
         let urlString = VTClient.Constants.flickURL + escapedParameters(methodArguements)
         let url = NSURL(string: urlString)!
@@ -44,6 +60,7 @@ class VTClient: NSObject {
             /*GUARD: Was there an error? */
             guard (error == nil) else {
                 print("There was an error with your request \(error)")
+                completionHandler(success: false, parsedReults: nil, error: error)
                 return
             }
             
@@ -52,22 +69,26 @@ class VTClient: NSObject {
             where statusCode >= 200 && statusCode <= 299 else {
                 if let response = response as? NSHTTPURLResponse {
                     print("Your request returned an invalid response! Status Code: \(response.statusCode)!")
+                    completionHandler(success: false, parsedReults: nil, error: error)
                 } else if let response = response {
                     print("Your request returned an invalid response! Response: \(response)")
+                    completionHandler(success: false, parsedReults: nil, error: error)
                 } else {
                     print("Your request returned an invalid response!")
+                    completionHandler(success: false, parsedReults: nil, error: error)
                 }
                 return
             }
             
             guard let data = data else {
                 print("No data was returned by the request!")
+                completionHandler(success: false, parsedReults: nil, error: error)
                 return
             }
             
-            let parsedResult = try! NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments) as! [String:AnyObject]
-            
-            print("ParsedResult: \(parsedResult)")
+            VTClient.parseJSON(data) {(success, results, error) in
+                completionHandler(success: success, parsedReults: results, error: error)
+            }
             
         }
         task.resume()
@@ -76,6 +97,13 @@ class VTClient: NSObject {
         
     }
     
+    
+    //MARK: Parse JSON Methods
+    
+    
+    
+    
+    //MARK: Helper Methods
     
     func formatCorrdinatesForBoundingBox(lattitude: Double, longitude: Double)-> String {
         return String(longitude - VTClient.Constants.BOUNDING_BOX_HALF_HEIGHT) + "," + String(lattitude - VTClient.Constants.BOUNDING_BOX_HALF_WIDTH) + "," + String(longitude + VTClient.Constants.BOUNDING_BOX_HALF_HEIGHT) + "," + String(lattitude + VTClient.Constants.BOUNDING_BOX_HALF_WIDTH)
@@ -100,6 +128,13 @@ class VTClient: NSObject {
         }
         
         return (!urlVars.isEmpty ? "?" : "") + urlVars.joinWithSeparator("&")
+    }
+    
+    class func sharedInstance() -> VTClient {
+        struct Singleton {
+            static var sharedInstance = VTClient()
+        }
+        return Singleton.sharedInstance
     }
     
 }

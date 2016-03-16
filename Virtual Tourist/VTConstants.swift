@@ -20,12 +20,18 @@ extension VTClient {
     
     struct ParameterKeys {
         static let safe_search = "1"
-        static let extras = "url_m"
+        static let extras = "url_m, url_o"
         static let data_format = "json"
         static let no_json_callback = "1"
     }
     
     struct JSONResponseKeys {
         //MARK: General JSON response keys
+        static let id = "id"
+        static let url_m = "url_m"
+        static let url_o = "url_o"
+        static let title = "title"
+        static let photos = "photos"
+        static let photo = "photo"
     }
 }
