@@ -115,8 +115,8 @@ class ViewController: UIViewController, MKMapViewDelegate {
             longPress = true
             
 
-            VTClient.sharedInstance().downloadImagesFromFlicker(dictionary["latitude"]!, longitude: dictionary["longitude"]!, page: nil)
-            //VTClient.sharedInstance().beginFlickrSearch(dictionary["latitude"]!, longitude: dictionary["longitude"]!, page: nil)
+            VTClient.sharedInstance().downloadImagesFromFlicker(dictionary["latitude"]!, longitude: dictionary["longitude"]!, page: nil, pin: pinLocation)
+            self.pinArray=self.fetchAllPins()
             
         }
         if gestureRecognizer.state == .Ended {
@@ -196,6 +196,28 @@ class ViewController: UIViewController, MKMapViewDelegate {
             
         }
 
+    }
+    
+    func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
+        let ann = view.annotation?.coordinate
+        let pin = searchForCorrectPin(ann!)
+        print("Pin Touched")
+        print("Pin Movies \(pin?.photos[0].url_m)")
+    }
+    
+    func searchForCorrectPin(annotation: CLLocationCoordinate2D)->LocationPin?{
+        for pin in pinArray {
+            print("Pin Latitude \(pin.latitude) & Pin Longitude \(pin.longitude)")
+            print("Annotation latitude \(annotation.latitude) Annotation logitude \(pin.longitude)")
+            if pin.latitude == annotation.latitude as Double && pin.longitude == annotation.longitude as Double {
+                print("Pin Found!")
+                return pin
+            } else {
+                print("Pin Not Found")
+            }
+        }
+        print("Returning Null Pin Array: \(pinArray)")
+        return nil
     }
     
 
