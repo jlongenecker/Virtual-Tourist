@@ -13,7 +13,7 @@ extension VTClient {
     
     
     func downloadImagesFromFlicker(latitude: Double, longitude: Double, page: Int?, pin: LocationPin) {
-        
+        print("Received Location Lattitude\(pin.latitude)")
         beginFlickrSearch(latitude, longitude: longitude, page: page) {(success, photoResults, error) in
             if success {
                 print("Pin test \(pin.photos)")

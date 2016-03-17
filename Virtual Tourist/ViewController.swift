@@ -97,7 +97,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
         if longPress == false {
             let touchPoint = gestureRecognizer.locationInView(map)
             let newCoordinates = map.convertPoint(touchPoint, toCoordinateFromView: map)
-            print("\(newCoordinates.latitude)")
+            print("Add Pin \(newCoordinates.latitude)")
             
             
             let dictionary = [
@@ -141,14 +141,30 @@ class ViewController: UIViewController, MKMapViewDelegate {
                 updatePin = pin
                 updatePin!.longitude = priorPinLocation.coordinate.longitude
                 updatePin!.latitude = priorPinLocation.coordinate.latitude
+                
             }
         }
     }
     
     func updatePinLocationInCoreData(pinLocation: LocationPin, newLocation: MKAnnotation) {
+        print("Old pin location latitude \(pinLocation.latitude) and longitude \(pinLocation.longitude)")
         pinLocation.latitude = newLocation.coordinate.latitude
         pinLocation.longitude = newLocation.coordinate.longitude
+        
+        var photos = pinLocation.photos
+        for photo in photos {
+            photo.pin = nil
+            sharedContext.deleteObject(photo)
+            //print("Pin Removed & Deleted")
+        }
         CoreDataStackManager.sharedInstance().saveContext()
+        print("Context Saved")
+        print("New pin location latitude \(pinLocation.latitude) and longitude \(pinLocation.longitude)")
+        print("Pin after being saved \(pinLocation.photos)")
+//        var test = VTClient()
+//        test.downloadImagesFromFlicker(pinLocation.latitude, longitude: pinLocation.longitude, page: nil, pin: pinLocation)
+//        //print("After update Pin \(pinLocation.photos[0].url_m)")
+        VTClient.sharedInstance().downloadImagesFromFlicker(pinLocation.latitude, longitude: pinLocation.longitude, page: nil, pin: pinLocation)
     }
     
     // MARK: - mapView Delegates
@@ -202,7 +218,8 @@ class ViewController: UIViewController, MKMapViewDelegate {
         let ann = view.annotation?.coordinate
         let pin = searchForCorrectPin(ann!)
         print("Pin Touched")
-        print("Pin Movies \(pin?.photos[0].url_m)")
+//        print("Pin Movies0 \(pin?.photos?[0].url_m)")
+//        print("Pin Movies1 \(pin?.photos?[1].url_m)")
     }
     
     func searchForCorrectPin(annotation: CLLocationCoordinate2D)->LocationPin?{
