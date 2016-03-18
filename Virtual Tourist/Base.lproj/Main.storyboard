@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15E56a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
@@ -21,16 +21,24 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="8EL-55-HIy">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </mapView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Xc3-eL-cFF">
+                                <rect key="frame" x="154" y="125" width="292" height="165"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="8EL-55-HIy" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" id="1VF-JK-Lxi"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Xc3-eL-cFF" secondAttribute="bottom" constant="310" id="4Vu-ha-cO9"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Xc3-eL-cFF" secondAttribute="trailing" constant="134" id="EaJ-JS-ZKd"/>
                             <constraint firstItem="8EL-55-HIy" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-20" id="EpX-8Q-lq8"/>
                             <constraint firstAttribute="trailingMargin" secondItem="8EL-55-HIy" secondAttribute="trailing" constant="-20" id="Sto-Mx-gKt"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="8EL-55-HIy" secondAttribute="bottom" id="gkO-g2-ZsI"/>
+                            <constraint firstItem="Xc3-eL-cFF" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="134" id="p7e-Eg-wCg"/>
+                            <constraint firstItem="Xc3-eL-cFF" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="105" id="tFj-0U-eLA"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="imageTest" destination="Xc3-eL-cFF" id="SRn-wZ-Say"/>
                         <outlet property="map" destination="8EL-55-HIy" id="lwg-tg-PGw"/>
                     </connections>
                 </viewController>

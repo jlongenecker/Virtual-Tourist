@@ -16,7 +16,15 @@ class ViewController: UIViewController, MKMapViewDelegate {
     var priorPinLocation: MKAnnotation?
     var updatePin: LocationPin?
     var viewLoaded = false
+    
+    
+    @IBAction func testButton(sender: AnyObject) {
+        
+        print("Test Button Pressed")
+    }
+    
 
+    @IBOutlet weak var imageTest: UIImageView!
     @IBOutlet weak var map: MKMapView!
     
     var filePathforVisibleMap: String {
@@ -150,10 +158,11 @@ class ViewController: UIViewController, MKMapViewDelegate {
         print("Old pin location latitude \(pinLocation.latitude) and longitude \(pinLocation.longitude)")
         pinLocation.latitude = newLocation.coordinate.latitude
         pinLocation.longitude = newLocation.coordinate.longitude
-        
-        var photos = pinLocation.photos
+        let imageCache = ImageCache()
+        let photos = pinLocation.photos
         for photo in photos {
             photo.pin = nil
+            imageCache.deleteImage(photo.photoID)
             sharedContext.deleteObject(photo)
             //print("Pin Removed & Deleted")
         }
@@ -161,9 +170,6 @@ class ViewController: UIViewController, MKMapViewDelegate {
         print("Context Saved")
         print("New pin location latitude \(pinLocation.latitude) and longitude \(pinLocation.longitude)")
         print("Pin after being saved \(pinLocation.photos)")
-//        var test = VTClient()
-//        test.downloadImagesFromFlicker(pinLocation.latitude, longitude: pinLocation.longitude, page: nil, pin: pinLocation)
-//        //print("After update Pin \(pinLocation.photos[0].url_m)")
         VTClient.sharedInstance().downloadImagesFromFlicker(pinLocation.latitude, longitude: pinLocation.longitude, page: nil, pin: pinLocation)
     }
     
@@ -218,8 +224,11 @@ class ViewController: UIViewController, MKMapViewDelegate {
         let ann = view.annotation?.coordinate
         let pin = searchForCorrectPin(ann!)
         print("Pin Touched")
-//        print("Pin Movies0 \(pin?.photos?[0].url_m)")
-//        print("Pin Movies1 \(pin?.photos?[1].url_m)")
+        //print("\(pin?.photos[0].image)")
+//        if let photo = pin?.photos[0].image {
+//            self.imageTest.image = photo
+//        }
+        
     }
     
     func searchForCorrectPin(annotation: CLLocationCoordinate2D)->LocationPin?{

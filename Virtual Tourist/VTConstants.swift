@@ -23,6 +23,7 @@ extension VTClient {
         static let extras = "url_m, url_o"
         static let data_format = "json"
         static let no_json_callback = "1"
+        static let per_page = 12
     }
     
     struct JSONResponseKeys {

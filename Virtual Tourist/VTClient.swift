@@ -45,6 +45,7 @@ class VTClient: NSObject {
                 "extras" : VTClient.ParameterKeys.extras,
                 "format" : VTClient.ParameterKeys.data_format,
                 "nojsoncallback" : VTClient.ParameterKeys.no_json_callback,
+                "per_page" : VTClient.ParameterKeys.per_page,
                 "page": String(page)
             ]
         } else {
@@ -57,6 +58,7 @@ class VTClient: NSObject {
                 "extras" : VTClient.ParameterKeys.extras,
                 "format" : VTClient.ParameterKeys.data_format,
                 "nojsoncallback" : VTClient.ParameterKeys.no_json_callback,
+                "per_page" : VTClient.ParameterKeys.per_page,
                 "page": firstPage
             ]
         }
@@ -105,11 +107,7 @@ class VTClient: NSObject {
         
         return task
         
-    }
-    
-    
-    //MARK: Parse JSON Methods
-    
+    }    
     
     
     

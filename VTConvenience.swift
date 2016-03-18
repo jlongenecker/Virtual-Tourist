@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreData
+import UIKit
 
 extension VTClient {
     
@@ -21,15 +22,21 @@ extension VTClient {
                 newPhotosResults.map() {(dictionary: [String:AnyObject]) -> Photo in
                    let photo = Photo(dictionary: dictionary, context: self.sharedContext)
                     photo.pin = pin
+                    let imageCache = ImageCache()
+                    imageCache.downloadImage(photo.photoID, url: photo.url_m)
                     return photo
                 }
+                CoreDataStackManager.sharedInstance().saveContext()
                 //print("Photo Test \(photo.pin)")
                 print("Pin test \(pin.photos)")
+//                print("Pin Test "
             }
         }
         
     }
     
+    
+  
 
 
     /*Helper Function: Given a raw JSON, return a usable Foundation object */
