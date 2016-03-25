@@ -12,27 +12,35 @@ import UIKit
 
 extension VTClient {
     
+
+  
     
-    func downloadImagesFromFlicker(latitude: Double, longitude: Double, page: Int?, pin: LocationPin) {
-        print("Received Location Lattitude\(pin.latitude)")
-        beginFlickrSearch(latitude, longitude: longitude, page: page) {(success, photoResults, error) in
-            if success {
-                print("VTClient extension: Pin does not contain photos: \(pin.photos)")
-                let newPhotosResults = photoResults as! [[String:AnyObject]]
-                if newPhotosResults == [] {
-                    print("VTClient extension Photo Results: \(newPhotosResults)")
+    func downloadImagesFromFlicker(latitude: Double, longitude: Double, page: Int?, pin: LocationPin, completionHandler: (success: Bool)->Void) {
+       // dispatch_async(dispatch_get_global_queue(self.priority, 0)) {
+            print("Received Location Lattitude\(pin.latitude)")
+            self.beginFlickrSearch(latitude, longitude: longitude, page: page) {(success, photoResults, error) in
+                if success {
+                    print("VTClient extension: Pin does not contain photos: \(pin.photos)")
+                    let newPhotosResults = photoResults as! [[String:AnyObject]]
+                    if newPhotosResults == [] {
+                        print("VTClient extension Photo Results: \(newPhotosResults)")
+                    } else {
+                        newPhotosResults.map() {(dictionary: [String:AnyObject]) -> Photo in
+                            let photo = Photo(dictionary: dictionary, context: self.sharedContext)
+                            photo.pin = pin
+                            let imageCache = ImageCache()
+                            imageCache.downloadImage(photo.photoID, url: photo.url_m)
+                            return photo
+                        }
+                    }
+                    CoreDataStackManager.sharedInstance().saveContext()
+                    print("VTClient extension: Pin contains photos \(pin.photos)")
+                    self.delegate?.testVTClientDelegate(self, result: true)
+                    pin.photoFinishedLoading = true
+                    completionHandler(success: true)
                 }
-                newPhotosResults.map() {(dictionary: [String:AnyObject]) -> Photo in
-                   let photo = Photo(dictionary: dictionary, context: self.sharedContext)
-                    photo.pin = pin
-                    let imageCache = ImageCache()
-                    imageCache.downloadImage(photo.photoID, url: photo.url_m)
-                    return photo
-                }
-                CoreDataStackManager.sharedInstance().saveContext()
-                print("VTClient extension: Pin contains photos \(pin.photos)")
             }
-        }
+        //}
         
     }
     

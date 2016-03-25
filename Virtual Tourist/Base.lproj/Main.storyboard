@@ -1,12 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15E64a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="D3X-u2-Ydb">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Navigation Controller-->
+        <scene sceneID="HWN-Tp-uCj">
+            <objects>
+                <navigationController id="D3X-u2-Ydb" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="tlH-7H-Twv">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="YJE-Jw-ccT"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3On-mJ-eNk" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-79" y="444"/>
+        </scene>
+        <!--Virtual Tourist-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Virtual_Tourist" customModuleProvider="target" sceneMemberID="viewController">
@@ -21,7 +37,7 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="8EL-55-HIy">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </mapView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Xc3-eL-cFF">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Xc3-eL-cFF">
                                 <rect key="frame" x="154" y="125" width="292" height="165"/>
                             </imageView>
                         </subviews>
@@ -37,6 +53,7 @@
                             <constraint firstItem="Xc3-eL-cFF" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="105" id="tFj-0U-eLA"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="Virtual Tourist" id="bse-sX-WiB"/>
                     <connections>
                         <outlet property="imageTest" destination="Xc3-eL-cFF" id="SRn-wZ-Say"/>
                         <outlet property="map" destination="8EL-55-HIy" id="lwg-tg-PGw"/>
@@ -45,6 +62,55 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="655" y="444"/>
+        </scene>
+        <!--Test View Controller-->
+        <scene sceneID="hLp-Af-XzU">
+            <objects>
+                <viewController storyboardIdentifier="TestViewController" id="O4d-w8-5iR" customClass="TestViewController" customModule="Virtual_Tourist" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="wyh-hh-9gW"/>
+                        <viewControllerLayoutGuide type="bottom" id="Sz8-O1-xt6"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Qzd-sO-j82">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="haK-1E-Lv2">
+                                <rect key="frame" x="151" y="191" width="298" height="218"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="haK-1E-Lv2" firstAttribute="top" secondItem="wyh-hh-9gW" secondAttribute="bottom" constant="171" id="6fe-LM-22M"/>
+                            <constraint firstItem="haK-1E-Lv2" firstAttribute="leading" secondItem="Qzd-sO-j82" secondAttribute="leadingMargin" constant="131" id="BhU-wT-9TO"/>
+                            <constraint firstItem="Sz8-O1-xt6" firstAttribute="top" secondItem="haK-1E-Lv2" secondAttribute="bottom" constant="191" id="YZd-ta-Buq"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="haK-1E-Lv2" secondAttribute="trailing" constant="131" id="gCN-5i-dvs"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="testImageView" destination="haK-1E-Lv2" id="Y9J-Cw-lxj"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ofk-gf-7at" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1340" y="444"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="frw-wd-6K9">
+            <objects>
+                <viewController id="lny-Fl-l43" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="MTe-Hn-cxU"/>
+                        <viewControllerLayoutGuide type="bottom" id="UXg-xE-0o5"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="nyH-E7-hkr">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yZz-cW-u1k" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
         </scene>
     </scenes>
 </document>

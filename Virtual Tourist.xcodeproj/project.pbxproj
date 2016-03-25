@@ -23,6 +23,7 @@
 		539AF7171C9AFCE400340B58 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539AF7161C9AFCE400340B58 /* ImageCache.swift */; };
 		D512C6631C98A69A00E505DD /* VTClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D512C6621C98A69A00E505DD /* VTClient.swift */; };
 		D512C6651C98A8E900E505DD /* VTConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D512C6641C98A8E900E505DD /* VTConstants.swift */; };
+		D57A406C1CA5870A00C5F859 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D57A406B1CA5870A00C5F859 /* TestViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +66,7 @@
 		539AF7161C9AFCE400340B58 /* ImageCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		D512C6621C98A69A00E505DD /* VTClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VTClient.swift; sourceTree = "<group>"; };
 		D512C6641C98A8E900E505DD /* VTConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VTConstants.swift; sourceTree = "<group>"; };
+		D57A406B1CA5870A00C5F859 /* TestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +98,7 @@
 			isa = PBXGroup;
 			children = (
 				5392F3E11C8110EA00581E34 /* ViewController.swift */,
+				D57A406B1CA5870A00C5F859 /* TestViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -318,6 +321,7 @@
 				53237B651C84F6DA0025FEEE /* locationPin.swift in Sources */,
 				5392F3E01C8110EA00581E34 /* AppDelegate.swift in Sources */,
 				D512C6631C98A69A00E505DD /* VTClient.swift in Sources */,
+				D57A406C1CA5870A00C5F859 /* TestViewController.swift in Sources */,
 				538CA38C1C99A912009162E3 /* VTConvenience.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

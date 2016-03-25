@@ -9,10 +9,15 @@
 import Foundation
 import CoreData
 
+protocol VTClientDelegate {
+    func testVTClientDelegate(VTClient: VTClient, result: Bool)
+}
+
 //MARK: - VTClient: NSOBJECT
 
 class VTClient: NSObject {
     //MARK: Properties
+    var delegate: VTClientDelegate?
     var photosArray = [Photo]()
     
     lazy var sharedContext: NSManagedObjectContext =  {
@@ -30,6 +35,9 @@ class VTClient: NSObject {
         super.init()
     }
   
+    let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+
+    
     //MARK: Search Flickr Photos
     
     func beginFlickrSearch(lattitude: Double, longitude: Double, page: Int?, completionHandler:(success: Bool, parsedResults: AnyObject?, error: NSError?)->Void)->NSURLSessionDataTask {

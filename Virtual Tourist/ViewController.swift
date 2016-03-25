@@ -10,13 +10,13 @@ import UIKit
 import MapKit
 import CoreData
 
+
 class ViewController: UIViewController, MKMapViewDelegate {
     var longPress = false
     var pinArray = [LocationPin]()
     var priorPinLocation: MKAnnotation?
     var updatePin: LocationPin?
     var viewLoaded = false
-    
     
     @IBAction func testButton(sender: AnyObject) {
         
@@ -38,8 +38,6 @@ class ViewController: UIViewController, MKMapViewDelegate {
     }
     
     override func viewDidLoad() {
-        super.viewDidLoad()
-        
         setupGestureRecognizer()
         dispatch_async(dispatch_get_main_queue(), {
             self.pinArray = self.fetchAllPins()
@@ -123,7 +121,14 @@ class ViewController: UIViewController, MKMapViewDelegate {
             longPress = true
             
 
-            VTClient.sharedInstance().downloadImagesFromFlicker(dictionary["latitude"]!, longitude: dictionary["longitude"]!, page: nil, pin: pinLocation)
+           VTClient.sharedInstance().downloadImagesFromFlicker(dictionary["latitude"]!, longitude: dictionary["longitude"]!, page: nil, pin: pinLocation) {(success) in
+                if success {
+                    let controller = TestViewController()
+                    controller.reloadValues()
+                    
+                }
+                
+            }
             self.pinArray=self.fetchAllPins()
             
         }
@@ -159,18 +164,21 @@ class ViewController: UIViewController, MKMapViewDelegate {
         pinLocation.latitude = newLocation.coordinate.latitude
         pinLocation.longitude = newLocation.coordinate.longitude
         let imageCache = ImageCache()
-        let photos = pinLocation.photos
-        for photo in photos {
-            photo.pin = nil
-            imageCache.deleteImage(photo.photoID)
-            sharedContext.deleteObject(photo)
-            //print("Pin Removed & Deleted")
+        if let photos = pinLocation.photos {
+            for photo in photos {
+                photo.pin = nil
+                imageCache.deleteImage(photo.photoID)
+                sharedContext.deleteObject(photo)
+                //print("Pin Removed & Deleted")
+            }
         }
+        pinLocation.photoFinishedLoading = false
         CoreDataStackManager.sharedInstance().saveContext()
         print("Context Saved")
         print("New pin location latitude \(pinLocation.latitude) and longitude \(pinLocation.longitude)")
         print("Pin after being saved \(pinLocation.photos)")
-        VTClient.sharedInstance().downloadImagesFromFlicker(pinLocation.latitude, longitude: pinLocation.longitude, page: nil, pin: pinLocation)
+        VTClient.sharedInstance().downloadImagesFromFlicker(pinLocation.latitude, longitude: pinLocation.longitude, page: nil, pin: pinLocation) {(success) in
+        }
     }
     
     // MARK: - mapView Delegates
@@ -224,11 +232,11 @@ class ViewController: UIViewController, MKMapViewDelegate {
         let ann = view.annotation?.coordinate
         let pin = searchForCorrectPin(ann!)
         print("Pin Touched")
-        //print("\(pin?.photos[0].image)")
-//        if let photo = pin?.photos[0].image {
-//            self.imageTest.image = photo
-//        }
         
+        var controller = TestViewController()
+        controller = self.storyboard?.instantiateViewControllerWithIdentifier("TestViewController") as! TestViewController
+        controller.pin = pin
+        navigationController?.pushViewController(controller, animated: true)
     }
     
     func searchForCorrectPin(annotation: CLLocationCoordinate2D)->LocationPin?{
@@ -245,6 +253,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
         print("Returning Null Pin Array: \(pinArray)")
         return nil
     }
+    
     
 
 }
