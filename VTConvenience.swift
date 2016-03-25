@@ -35,7 +35,6 @@ extension VTClient {
                     }
                     CoreDataStackManager.sharedInstance().saveContext()
                     print("VTClient extension: Pin contains photos \(pin.photos)")
-                    self.delegate?.testVTClientDelegate(self, result: true)
                     pin.photoFinishedLoading = true
                     completionHandler(success: true)
                 }

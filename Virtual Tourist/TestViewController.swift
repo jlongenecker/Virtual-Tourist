@@ -44,7 +44,16 @@ class TestViewController: UIViewController {
         }
     }
     
-    func reloadValues() {
+    func reloadValues(newPin: LocationPin) {
         print("It is time to reload values")
+//        print("\(newPin)")
+//        print("Reload Pin Values \(newPin.photos![0].image)")
+//        if let photo = newPin.photos![0].image {
+//            print("Photo :\(photo)")
+            dispatch_async(dispatch_get_main_queue(), {
+                self.loadPhotosInImageView(newPin)
+            })
+//        }
     }
+
 }

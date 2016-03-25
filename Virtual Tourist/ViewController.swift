@@ -17,6 +17,8 @@ class ViewController: UIViewController, MKMapViewDelegate {
     var priorPinLocation: MKAnnotation?
     var updatePin: LocationPin?
     var viewLoaded = false
+    var pinTouched: LocationPin?
+    var controller = TestViewController()
     
     @IBAction func testButton(sender: AnyObject) {
         
@@ -123,8 +125,11 @@ class ViewController: UIViewController, MKMapViewDelegate {
 
            VTClient.sharedInstance().downloadImagesFromFlicker(dictionary["latitude"]!, longitude: dictionary["longitude"]!, page: nil, pin: pinLocation) {(success) in
                 if success {
-                    let controller = TestViewController()
-                    controller.reloadValues()
+                    if let pinTouched = self.pinTouched {
+                        self.controller.reloadValues(pinTouched)
+                    } else {
+                        print("PinTouched never set \(self.pinTouched)")
+                    }
                     
                 }
                 
@@ -231,9 +236,9 @@ class ViewController: UIViewController, MKMapViewDelegate {
     func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
         let ann = view.annotation?.coordinate
         let pin = searchForCorrectPin(ann!)
+        pinTouched = pin
         print("Pin Touched")
         
-        var controller = TestViewController()
         controller = self.storyboard?.instantiateViewControllerWithIdentifier("TestViewController") as! TestViewController
         controller.pin = pin
         navigationController?.pushViewController(controller, animated: true)
