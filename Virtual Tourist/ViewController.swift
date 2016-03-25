@@ -124,15 +124,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
             
 
            VTClient.sharedInstance().downloadImagesFromFlicker(dictionary["latitude"]!, longitude: dictionary["longitude"]!, page: nil, pin: pinLocation) {(success) in
-                if success {
-                    if let pinTouched = self.pinTouched {
-                        self.controller.reloadValues(pinTouched)
-                    } else {
-                        print("PinTouched never set \(self.pinTouched)")
-                    }
-                    
-                }
-                
+                self.reloadTestViewController()
             }
             self.pinArray=self.fetchAllPins()
             
@@ -183,8 +175,19 @@ class ViewController: UIViewController, MKMapViewDelegate {
         print("New pin location latitude \(pinLocation.latitude) and longitude \(pinLocation.longitude)")
         print("Pin after being saved \(pinLocation.photos)")
         VTClient.sharedInstance().downloadImagesFromFlicker(pinLocation.latitude, longitude: pinLocation.longitude, page: nil, pin: pinLocation) {(success) in
+            self.reloadTestViewController()
         }
     }
+    
+    
+    func reloadTestViewController() {
+        if let pinTouched = self.pinTouched {
+            self.controller.reloadValues(pinTouched)
+        } else {
+            print("PinTouched never set \(self.pinTouched)")
+        }
+    }
+    
     
     // MARK: - mapView Delegates
     
