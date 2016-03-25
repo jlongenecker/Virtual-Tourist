@@ -17,8 +17,11 @@ extension VTClient {
         print("Received Location Lattitude\(pin.latitude)")
         beginFlickrSearch(latitude, longitude: longitude, page: page) {(success, photoResults, error) in
             if success {
-                print("Pin test \(pin.photos)")
+                print("VTClient extension: Pin does not contain photos: \(pin.photos)")
                 let newPhotosResults = photoResults as! [[String:AnyObject]]
+                if newPhotosResults == [] {
+                    print("VTClient extension Photo Results: \(newPhotosResults)")
+                }
                 newPhotosResults.map() {(dictionary: [String:AnyObject]) -> Photo in
                    let photo = Photo(dictionary: dictionary, context: self.sharedContext)
                     photo.pin = pin
@@ -27,9 +30,7 @@ extension VTClient {
                     return photo
                 }
                 CoreDataStackManager.sharedInstance().saveContext()
-                //print("Photo Test \(photo.pin)")
-                print("Pin test \(pin.photos)")
-//                print("Pin Test "
+                print("VTClient extension: Pin contains photos \(pin.photos)")
             }
         }
         
