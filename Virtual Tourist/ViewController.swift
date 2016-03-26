@@ -29,16 +29,20 @@ class ViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var imageTest: UIImageView!
     @IBOutlet weak var map: MKMapView!
     
+    //This varibale holds the path for the saved Map.
     var filePathforVisibleMap: String {
         let manager = NSFileManager.defaultManager()
         let url = manager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first! as NSURL
         return url.URLByAppendingPathComponent("visibleMap").path!
     }
     
+    //Setting the context for core data.
     var sharedContext: NSManagedObjectContext {
         return CoreDataStackManager.sharedInstance().managedObjectContext
     }
     
+    
+    //The Gesture Recognizer method is focued on setting up the long touch so that pins can be dragged. The other two methods are to reload pins if there were previously added pins.
     override func viewDidLoad() {
         setupGestureRecognizer()
         dispatch_async(dispatch_get_main_queue(), {
@@ -48,6 +52,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
         
     }
     
+    //Cannot load a map position via coordiantes until after the view has loaded otherwise the map will move after loading (not ideal).
     override func viewDidAppear(animated: Bool) {
         let fileExists = checkIfFileExists()
         if fileExists {
@@ -67,6 +72,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
+    //This checks if the map file exists. The method is not loading any other saved data.
     func checkIfFileExists()->Bool {
         if NSFileManager.defaultManager().fileExistsAtPath(filePathforVisibleMap) {
             print("File Saved")
@@ -122,7 +128,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
             map.addAnnotation(annotation)
             longPress = true
             
-
+        //Begins the Virtual Tourist client which takes care of searching FLickr for images and downloading them if they exist. Upon completion of the search, the reloadTestViewController is sent a message to reload and add the images. 
            VTClient.sharedInstance().downloadImagesFromFlicker(dictionary["latitude"]!, longitude: dictionary["longitude"]!, page: nil, pin: pinLocation) {(success) in
                 self.reloadTestViewController()
             }

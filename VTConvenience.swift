@@ -33,9 +33,9 @@ extension VTClient {
                             return photo
                         }
                     }
+                    pin.photoFinishedLoading = true
                     CoreDataStackManager.sharedInstance().saveContext()
                     print("VTClient extension: Pin contains photos \(pin.photos)")
-                    pin.photoFinishedLoading = true
                     completionHandler(success: true)
                 }
             }

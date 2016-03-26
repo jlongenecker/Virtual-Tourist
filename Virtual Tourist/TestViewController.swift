@@ -16,14 +16,6 @@ class TestViewController: UIViewController {
     var pin: LocationPin!
     
     override func viewDidLoad() {
-//        print("TestViewController Loading")
-//        print("Pin Photos \(pin.photos)")
-//        if pin.photos!.count != 0 {
-//            print(" After Error Checkign Photos \(pin.photos)")
-//            let photo = pin.photos![0]
-//            testImageView.image = photo.image
-//        }
-        
         loadPhotosInImageView(pin)
     }
     
@@ -46,14 +38,9 @@ class TestViewController: UIViewController {
     
     func reloadValues(newPin: LocationPin) {
         print("It is time to reload values")
-//        print("\(newPin)")
-//        print("Reload Pin Values \(newPin.photos![0].image)")
-//        if let photo = newPin.photos![0].image {
-//            print("Photo :\(photo)")
-            dispatch_async(dispatch_get_main_queue(), {
-                self.loadPhotosInImageView(newPin)
-            })
-//        }
+        dispatch_async(dispatch_get_main_queue(), {
+            self.loadPhotosInImageView(newPin)
+        })
     }
 
 }
