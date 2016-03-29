@@ -45,6 +45,8 @@ class PhotoCollectionViewController: UIViewController, UICollectionViewDataSourc
             print("Error performing initial fetch: \(error)")
         }
         
+        collectionView.backgroundColor = UIColor.blueColor()
+        
         
 
     }
@@ -55,7 +57,7 @@ class PhotoCollectionViewController: UIViewController, UICollectionViewDataSourc
         super.viewDidLayoutSubviews()
         
         // Lay out the collection view so that cells take up 1/3 of the width,
-        // with no space in between.
+//        // with no space in between.
         let layout : UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         layout.minimumLineSpacing = 0
@@ -84,7 +86,9 @@ class PhotoCollectionViewController: UIViewController, UICollectionViewDataSourc
     // MARK: - UICollectionView
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        return self.fetchedResultsController.sections?.count ?? 0
+        
+        print("NumberOfSections method called")
+        return self.fetchedResultsController.sections?.count ?? 1
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -122,10 +126,13 @@ class PhotoCollectionViewController: UIViewController, UICollectionViewDataSourc
         
         let fetchRequest = NSFetchRequest(entityName: "Photo")
         
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
-        fetchRequest.predicate = NSPredicate(format: "photos == %@", self.pin)
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "photoID", ascending: true)]
+        fetchRequest.predicate = NSPredicate(format: "pin == %@", self.pin)
         
         let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.sharedContext, sectionNameKeyPath: nil, cacheName: nil)
+        
+        
+        print("\(fetchedResultsController.sections)")
         
         return fetchedResultsController
         }()
@@ -183,4 +190,21 @@ class PhotoCollectionViewController: UIViewController, UICollectionViewDataSourc
         
     }
 
+    func testReloadController() {
+        
+        dispatch_async(dispatch_get_main_queue(), {
+            do {
+                try self.fetchedResultsController.performFetch()
+            } catch let error1 as NSError {
+                
+            }
+            
+            //controllerDidChangeContent(fetchedResultsController)
+            self.collectionView.reloadData()
+
+        })
+
+        
+
+    }
 }

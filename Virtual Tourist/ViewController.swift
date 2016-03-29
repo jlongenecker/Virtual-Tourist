@@ -22,7 +22,8 @@ class ViewController: UIViewController, MKMapViewDelegate {
     var updatePin: LocationPin?
     var viewLoaded = false
     var pinTouched: LocationPin?
-    var controller = TestViewController()
+    //var controller = TestViewController()
+    var testController = PhotoCollectionViewController()
     var ann: MKAnnotation?
     
     
@@ -193,7 +194,9 @@ class ViewController: UIViewController, MKMapViewDelegate {
     
     func reloadTestViewController() {
         if let pinTouched = self.pinTouched {
-            self.controller.reloadValues(pinTouched)
+            print("ReloadTestViewController")
+           // self.controller.reloadValues(pinTouched)
+            testController.testReloadController()
         } else {
             print("PinTouched never set \(self.pinTouched)")
         }
@@ -257,12 +260,21 @@ class ViewController: UIViewController, MKMapViewDelegate {
         print("Pin Touched")
         //mapView.deselectAnnotation(view.annotation, animated: false)
         
-        controller = self.storyboard?.instantiateViewControllerWithIdentifier("TestViewController") as! TestViewController
-        controller.pin = pin
+//        controller = self.storyboard?.instantiateViewControllerWithIdentifier("TestViewController") as! TestViewController
+//        controller.pin = pin
+//        let backItem = UIBarButtonItem()
+//        backItem.title = "Back"
+//        navigationItem.backBarButtonItem = backItem
+//        navigationController?.pushViewController(controller, animated: true)
+        
+        
+        testController = self.storyboard?.instantiateViewControllerWithIdentifier("PhotoCollectionViewController") as! PhotoCollectionViewController
+        testController.pin = pin
         let backItem = UIBarButtonItem()
         backItem.title = "Back"
         navigationItem.backBarButtonItem = backItem
-        navigationController?.pushViewController(controller, animated: true)
+        navigationController?.pushViewController(testController, animated: true)
+        
 
     }
     

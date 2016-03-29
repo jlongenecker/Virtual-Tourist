@@ -102,22 +102,8 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="JK4-Ho-wVR">
                                 <rect key="frame" x="0.0" y="28" width="600" height="136"/>
                             </mapView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xRu-3K-n3R">
-                                <rect key="frame" x="0.0" y="556" width="600" height="44"/>
-                                <items>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="Ghc-Iq-ZPu"/>
-                                    <barButtonItem style="plain" id="VjH-rx-MYl">
-                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="1xW-xv-mBB">
-                                            <rect key="frame" x="277" y="7" width="46" height="30"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="Button"/>
-                                        </button>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="NAs-SB-eav"/>
-                                </items>
-                            </toolbar>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="l0r-yR-0nW">
-                                <rect key="frame" x="0.0" y="163" width="600" height="437"/>
+                                <rect key="frame" x="0.0" y="163" width="600" height="393"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="5Eo-of-Vds">
                                     <size key="itemSize" width="115" height="115"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -149,12 +135,30 @@
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="j82-BF-mG2" id="bPi-Fh-FFp"/>
+                                    <outlet property="delegate" destination="j82-BF-mG2" id="1FW-xI-U2n"/>
+                                </connections>
                             </collectionView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xRu-3K-n3R">
+                                <rect key="frame" x="0.0" y="556" width="600" height="44"/>
+                                <items>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="Ghc-Iq-ZPu"/>
+                                    <barButtonItem style="plain" id="VjH-rx-MYl">
+                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="1xW-xv-mBB">
+                                            <rect key="frame" x="277" y="7" width="46" height="30"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal" title="Button"/>
+                                        </button>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="NAs-SB-eav"/>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="JK4-Ho-wVR" firstAttribute="top" secondItem="kPN-yd-Grb" secondAttribute="topMargin" constant="28" id="6fh-rt-X2t"/>
-                            <constraint firstItem="sCJ-13-DBv" firstAttribute="top" secondItem="l0r-yR-0nW" secondAttribute="bottom" id="LRr-6A-CDa"/>
+                            <constraint firstItem="sCJ-13-DBv" firstAttribute="top" secondItem="l0r-yR-0nW" secondAttribute="bottom" constant="44" id="LRr-6A-CDa"/>
                             <constraint firstItem="l0r-yR-0nW" firstAttribute="leading" secondItem="kPN-yd-Grb" secondAttribute="leadingMargin" constant="-20" id="Lzd-m2-EHe"/>
                             <constraint firstItem="l0r-yR-0nW" firstAttribute="top" secondItem="GJF-lp-jch" secondAttribute="bottom" constant="143" id="NfH-xt-Anc"/>
                             <constraint firstItem="xRu-3K-n3R" firstAttribute="top" secondItem="JK4-Ho-wVR" secondAttribute="bottom" constant="392" id="QC7-KL-SAp"/>
@@ -175,23 +179,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oOZ-Ys-Wc2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1964" y="444"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="EzU-JG-ofh">
-            <objects>
-                <viewController id="Oy8-n0-DWU" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="nRB-Y7-fsZ"/>
-                        <viewControllerLayoutGuide type="bottom" id="5uh-zk-JyR"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="YxQ-lH-lcu">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="LsO-8p-5uH" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
         </scene>
     </scenes>
     <resources>
