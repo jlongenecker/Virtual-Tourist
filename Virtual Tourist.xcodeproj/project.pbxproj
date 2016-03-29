@@ -24,6 +24,8 @@
 		D512C6631C98A69A00E505DD /* VTClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D512C6621C98A69A00E505DD /* VTClient.swift */; };
 		D512C6651C98A8E900E505DD /* VTConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D512C6641C98A8E900E505DD /* VTConstants.swift */; };
 		D57A406C1CA5870A00C5F859 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D57A406B1CA5870A00C5F859 /* TestViewController.swift */; };
+		D57BDD931CA76459006328CE /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D57BDD921CA76459006328CE /* PhotoCell.swift */; };
+		D57BDD951CA76623006328CE /* PhotoCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D57BDD941CA76623006328CE /* PhotoCollectionViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +69,8 @@
 		D512C6621C98A69A00E505DD /* VTClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VTClient.swift; sourceTree = "<group>"; };
 		D512C6641C98A8E900E505DD /* VTConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VTConstants.swift; sourceTree = "<group>"; };
 		D57A406B1CA5870A00C5F859 /* TestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
+		D57BDD921CA76459006328CE /* PhotoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
+		D57BDD941CA76623006328CE /* PhotoCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +103,8 @@
 			children = (
 				5392F3E11C8110EA00581E34 /* ViewController.swift */,
 				D57A406B1CA5870A00C5F859 /* TestViewController.swift */,
+				D57BDD921CA76459006328CE /* PhotoCell.swift */,
+				D57BDD941CA76623006328CE /* PhotoCollectionViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -317,8 +323,10 @@
 				5392F3E81C8110EA00581E34 /* Virtual_Tourist.xcdatamodeld in Sources */,
 				538CA3881C99A64F009162E3 /* Photo.swift in Sources */,
 				D512C6651C98A8E900E505DD /* VTConstants.swift in Sources */,
+				D57BDD931CA76459006328CE /* PhotoCell.swift in Sources */,
 				53237B5F1C84F16D0025FEEE /* CoreDataStackManager.swift in Sources */,
 				53237B651C84F6DA0025FEEE /* locationPin.swift in Sources */,
+				D57BDD951CA76623006328CE /* PhotoCollectionViewController.swift in Sources */,
 				5392F3E01C8110EA00581E34 /* AppDelegate.swift in Sources */,
 				D512C6631C98A69A00E505DD /* VTClient.swift in Sources */,
 				D57A406C1CA5870A00C5F859 /* TestViewController.swift in Sources */,

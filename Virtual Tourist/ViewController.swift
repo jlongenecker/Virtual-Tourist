@@ -10,6 +10,10 @@ import UIKit
 import MapKit
 import CoreData
 
+private extension Selector {
+    static let addPin = #selector(ViewController.addPin(_:))
+}
+
 
 class ViewController: UIViewController, MKMapViewDelegate {
     var longPress = false
@@ -19,16 +23,14 @@ class ViewController: UIViewController, MKMapViewDelegate {
     var viewLoaded = false
     var pinTouched: LocationPin?
     var controller = TestViewController()
+    var ann: MKAnnotation?
     
-    @IBAction func testButton(sender: AnyObject) {
-        
-        print("Test Button Pressed")
-    }
     
 
-    @IBOutlet weak var imageTest: UIImageView!
     @IBOutlet weak var map: MKMapView!
     
+    
+
     //This varibale holds the path for the saved Map.
     var filePathforVisibleMap: String {
         let manager = NSFileManager.defaultManager()
@@ -49,7 +51,9 @@ class ViewController: UIViewController, MKMapViewDelegate {
             self.pinArray = self.fetchAllPins()
             self.reloadPins()
         })
-        
+//        //if let ann = ann {
+//            map.deselectAnnotation(ann, animated: false)
+//        //}
     }
     
     //Cannot load a map position via coordiantes until after the view has loaded otherwise the map will move after loading (not ideal).
@@ -61,6 +65,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
             print("Unable to load map position")
         }
         viewLoaded = true
+        //map.deselectAnnotation(ann, animated: false)
     }
     
     func loadMapPosition() {
@@ -84,7 +89,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
     }
     
     func setupGestureRecognizer() {
-        let uilgr = UILongPressGestureRecognizer(target: self, action: "addPin:")
+        let uilgr = UILongPressGestureRecognizer(target: self, action: .addPin)
         uilgr.minimumPressDuration = 1.3
         map.addGestureRecognizer(uilgr)
         map.delegate = self
@@ -243,15 +248,25 @@ class ViewController: UIViewController, MKMapViewDelegate {
     }
     
     func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
-        let ann = view.annotation?.coordinate
-        let pin = searchForCorrectPin(ann!)
+        
+        
+        ann = view.annotation
+        let coordinate = ann?.coordinate
+        let pin = searchForCorrectPin(coordinate!)
         pinTouched = pin
         print("Pin Touched")
+        //mapView.deselectAnnotation(view.annotation, animated: false)
         
         controller = self.storyboard?.instantiateViewControllerWithIdentifier("TestViewController") as! TestViewController
         controller.pin = pin
+        let backItem = UIBarButtonItem()
+        backItem.title = "Back"
+        navigationItem.backBarButtonItem = backItem
         navigationController?.pushViewController(controller, animated: true)
+
     }
+    
+    
     
     func searchForCorrectPin(annotation: CLLocationCoordinate2D)->LocationPin?{
         for pin in pinArray {
@@ -267,7 +282,6 @@ class ViewController: UIViewController, MKMapViewDelegate {
         print("Returning Null Pin Array: \(pinArray)")
         return nil
     }
-    
     
 
 }
