@@ -17,6 +17,8 @@ private let reuseIdentifier = "PhotoCell"
 
 class PhotoCollectionViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, NSFetchedResultsControllerDelegate, MKMapViewDelegate {
     
+    
+    //set properties and UIButtons
     var selectedIndexes = [NSIndexPath]()
     
     var insertedIndexPaths: [NSIndexPath]!
@@ -34,6 +36,8 @@ class PhotoCollectionViewController: UIViewController, UICollectionViewDataSourc
     
     
     var sharedContext = CoreDataStackManager.sharedInstance().managedObjectContext
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,8 +64,9 @@ class PhotoCollectionViewController: UIViewController, UICollectionViewDataSourc
 
 
     }
+
     
-        // Layout the collection view
+    
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -212,14 +217,6 @@ class PhotoCollectionViewController: UIViewController, UICollectionViewDataSourc
     }
     
 
-    func testReloadController() {
-        
-        dispatch_async(dispatch_get_main_queue(), {
-            self.reloadData()
-
-        })
-
-    }
     
     
     @IBAction func barButtonPressed(sender: AnyObject) {
@@ -233,6 +230,8 @@ class PhotoCollectionViewController: UIViewController, UICollectionViewDataSourc
         
     }
     
+    
+
     func deletedSelectedPhotos() {
         var photosToDelete = [Photo]()
         
@@ -252,6 +251,7 @@ class PhotoCollectionViewController: UIViewController, UICollectionViewDataSourc
     }
     
 
+    //reloads data after it has been returned by the client.
     func reloadData() {
         print("Test Reload Data")
         dispatch_async(dispatch_get_main_queue(), {
@@ -289,11 +289,15 @@ class PhotoCollectionViewController: UIViewController, UICollectionViewDataSourc
         
     }
     
+    //MARK: Map Annotations
+    
     func addPin() {
         let annotation = MKPointAnnotation()
         annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(self.pin.latitude), longitude: CLLocationDegrees(self.pin.longitude))
         mapView.addAnnotation(annotation)
     }
+    
+    //MARK: Helper functions
     
     func addToCollection() {
         let client = VTClient()

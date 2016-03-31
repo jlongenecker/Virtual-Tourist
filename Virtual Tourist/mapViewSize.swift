@@ -11,6 +11,8 @@ import Foundation
 class mapViewSize: NSObject, NSCoding {
     
     
+    //mapView class to be an object that can be saved and reloaded at start of app. 
+    
     struct Keys {
         static let originx = "originx"
         static let originy = "originy"

@@ -113,7 +113,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
-    
+    //Reloading prior map loaction
     func mapRectWork(mapView: mapViewSize)->MKMapRect {
         return MKMapRect(origin: MKMapPoint(x: mapView.originx, y: mapView.originy), size: MKMapSize(width: mapView.sizeWidth, height: mapView.sizeHeight))
     }
@@ -147,7 +147,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
             
         //Begins the Virtual Tourist client which takes care of searching FLickr for images and downloading them if they exist. Upon completion of the search, the reloadTestViewController is sent a message to reload and add the images. 
            VTClient.sharedInstance().downloadImagesFromFlicker(dictionary["latitude"]!, longitude: dictionary["longitude"]!, page: pinLocation.flickrPage, pin: pinLocation) {(success) in
-                self.reloadTestViewController()
+                self.reloadPhotoViewController()
             }
             self.pinArray=self.fetchAllPins()
             
@@ -158,6 +158,8 @@ class ViewController: UIViewController, MKMapViewDelegate {
     }
     
     
+    
+    //placing pins on the map after retreiving from .DocumentCirector.
     func reloadPins() {
         
         for pin in pinArray {
@@ -169,6 +171,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
+    //Sets values of prior pin so that the pin can be updated with the new location.
     func assignPriorPinLocation(priorPinLocation: MKAnnotation) {
         for pin in pinArray {
             print("Pin Lattitude \(pin.latitude) Pin \(pin.longitude)")
@@ -182,6 +185,8 @@ class ViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
+    
+    //After pin movement update the pins location in Core Data and begin the photo download from flickr.
     func updatePinLocationInCoreData(pinLocation: LocationPin, newLocation: MKAnnotation) {
         let flickrPage = 1
         print("Old pin location latitude \(pinLocation.latitude) and longitude \(pinLocation.longitude)")
@@ -203,17 +208,17 @@ class ViewController: UIViewController, MKMapViewDelegate {
         print("New pin location latitude \(pinLocation.latitude) and longitude \(pinLocation.longitude)")
         print("Pin after being saved \(pinLocation.photos)")
         VTClient.sharedInstance().downloadImagesFromFlicker(pinLocation.latitude, longitude: pinLocation.longitude, page: pinLocation.flickrPage, pin: pinLocation) {(success) in
-            self.reloadTestViewController()
+            self.reloadPhotoViewController()
         }
     }
     
-    
-    func reloadTestViewController() {
+    //Sends a reload signal to the Collection View Controller if loaded so that it knows the photos have now been downloaded.
+    func reloadPhotoViewController() {
         
         if pinTouched {
             print("ReloadTestViewController")
            // self.controller.reloadValues(pinTouched)
-            photoCollectionViewController.testReloadController()
+            photoCollectionViewController.reloadData()
 
         } else {
             print("PinTouched never set \(self.pinTouched)")
@@ -269,11 +274,12 @@ class ViewController: UIViewController, MKMapViewDelegate {
 
     }
     
+    
     func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
         
         
         if movePinEnabled {
-            
+
         } else {
             ann = view.annotation
             let coordinate = ann?.coordinate
@@ -295,6 +301,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
     }
     
     
+    //searching for the correct pin so that the photoView can be loaded with the correct pin.
     func searchForCorrectPin(annotation: CLLocationCoordinate2D)->LocationPin?{
         for pin in pinArray {
             print("Pin Latitude \(pin.latitude) & Pin Longitude \(pin.longitude)")
@@ -311,6 +318,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
     }
     
 
+    //func to help control pin movement as selecting a pin causes complications with pin movement.
     func movePin() {
         if movePinEnabled {
             moveButtonOutlet.setTitle("Move Pin", forState: .Normal)
