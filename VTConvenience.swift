@@ -19,23 +19,37 @@ extension VTClient {
             print("Received Location Lattitude\(pin.latitude)")
             self.beginFlickrSearch(latitude, longitude: longitude, page: page) {(success, photoResults, error) in
                 if success {
-                    print("VTClient extension: Pin does not contain photos: \(pin.photos)")
-                    let newPhotosResults = photoResults as! [[String:AnyObject]]
-                    if newPhotosResults == [] {
-                        print("VTClient extension Photo Results: \(newPhotosResults)")
-                    } else {
-                        newPhotosResults.map() {(dictionary: [String:AnyObject]) -> Photo in
-                            let photo = Photo(dictionary: dictionary, context: self.sharedContext)
-                            photo.pin = pin
-                            let imageCache = ImageCache()
-                            imageCache.downloadImage(photo.photoID, url: photo.url_m)
-                            return photo
+                    
+                    let privateMOC = NSManagedObjectContext(concurrencyType: .PrivateQueueConcurrencyType)
+                    privateMOC.parentContext = self.sharedContext
+                    
+                    privateMOC.performBlock {
+                        print("VTClient extension: Pin does not contain photos: \(pin.photos)")
+                        let newPhotosResults = photoResults as! [[String:AnyObject]]
+                        if newPhotosResults == [] {
+                            print("VTClient extension Photo Results: \(newPhotosResults)")
+                        } else {
+                            newPhotosResults.map() {(dictionary: [String:AnyObject]) -> Photo in
+                                let photo = Photo(dictionary: dictionary, context: self.sharedContext)
+                                photo.pin = pin
+                                let imageCache = ImageCache()
+                                imageCache.downloadImage(photo.photoID, url: photo.url_m)
+                                return photo
+                            }
                         }
+                        pin.photoFinishedLoading = true
+                        
+                        do {
+                            try privateMOC.save()
+                        } catch {
+                            fatalError("Failure to save context: \(error)")
+                        }
+
+                        completionHandler(success: true)
                     }
-                    pin.photoFinishedLoading = true
-                    CoreDataStackManager.sharedInstance().saveContext()
+
                     print("VTClient extension: Pin contains photos \(pin.photos)")
-                    completionHandler(success: true)
+     
                 }
             }
         

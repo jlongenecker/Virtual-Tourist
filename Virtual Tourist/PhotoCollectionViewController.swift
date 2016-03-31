@@ -224,6 +224,7 @@ class PhotoCollectionViewController: UIViewController, UICollectionViewDataSourc
             deletedSelectedPhotos()
             barButtonTitle()
         } else {
+            print("Download new Collection Button Pressed")
             deleteOldPhotos()
             addToCollection()
         }
