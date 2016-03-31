@@ -9,11 +9,13 @@
 import UIKit
 import Foundation
 import CoreData
+import MapKit
+
 
 
 private let reuseIdentifier = "PhotoCell"
 
-class PhotoCollectionViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, NSFetchedResultsControllerDelegate {
+class PhotoCollectionViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, NSFetchedResultsControllerDelegate, MKMapViewDelegate {
     
     var selectedIndexes = [NSIndexPath]()
     
@@ -22,7 +24,9 @@ class PhotoCollectionViewController: UIViewController, UICollectionViewDataSourc
     var updatedIndexPaths: [NSIndexPath]!
 
     @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var barButton: UIToolbar!
+    @IBOutlet weak var barButton: UIButton!
+    @IBOutlet weak var mapView: MKMapView!
+
     
     var cancelButton: UIBarButtonItem!
     
@@ -33,6 +37,8 @@ class PhotoCollectionViewController: UIViewController, UICollectionViewDataSourc
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        mapView.delegate = self
         
         var error: NSError?
         do {
@@ -45,9 +51,13 @@ class PhotoCollectionViewController: UIViewController, UICollectionViewDataSourc
             print("Error performing initial fetch: \(error)")
         }
         
-        collectionView.backgroundColor = UIColor.blueColor()
+        barButton.setTitle("Download New Collection", forState: .Normal)
         
+        setRegion()
+        addPin()
         
+        noImages()
+
 
     }
     
@@ -60,10 +70,10 @@ class PhotoCollectionViewController: UIViewController, UICollectionViewDataSourc
 //        // with no space in between.
         let layout : UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        layout.minimumLineSpacing = 0
-        layout.minimumInteritemSpacing = 0
+        layout.minimumLineSpacing = 1
+        layout.minimumInteritemSpacing = 1
         
-        let width = floor(self.collectionView.frame.size.width/3)
+        let width = floor(((self.collectionView.frame.size.width)-0.05)/3)
         layout.itemSize = CGSize(width: width, height: width)
         collectionView.collectionViewLayout = layout
     }
@@ -74,10 +84,11 @@ class PhotoCollectionViewController: UIViewController, UICollectionViewDataSourc
     func configureCell(cell: PhotoCell, atIndexPath indexPath: NSIndexPath) {
         let photo = self.fetchedResultsController.objectAtIndexPath(indexPath) as! Photo
         
+        print("Cell URL: \(photo.url_m)")
         cell.cellImageView.image = photo.image
         
         if let _ = selectedIndexes.indexOf(indexPath) {
-            cell.cellImageView.alpha = 0.05
+            cell.cellImageView.alpha = 0.4
         } else {
             cell.cellImageView.alpha = 1.0
         }
@@ -88,13 +99,15 @@ class PhotoCollectionViewController: UIViewController, UICollectionViewDataSourc
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         
         print("NumberOfSections method called")
-        return self.fetchedResultsController.sections?.count ?? 1
+        return self.fetchedResultsController.sections?.count ?? 0
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let sectionInfo = self.fetchedResultsController.sections![section]
         
         print("number Of Cells: \(sectionInfo.numberOfObjects)")
+        
+        
         return sectionInfo.numberOfObjects
     }
     
@@ -102,6 +115,8 @@ class PhotoCollectionViewController: UIViewController, UICollectionViewDataSourc
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("PhotoCell", forIndexPath: indexPath) as! PhotoCell
         
         configureCell(cell, atIndexPath: indexPath)
+        
+        
         
         return cell
     }
@@ -112,11 +127,14 @@ class PhotoCollectionViewController: UIViewController, UICollectionViewDataSourc
         
         if let index = selectedIndexes.indexOf(indexPath) {
             selectedIndexes.removeAtIndex(index)
+            barButtonTitle()
         } else {
             selectedIndexes.append(indexPath)
+            barButtonTitle()
         }
         
         configureCell(cell, atIndexPath: indexPath)
+        
         
     }
     
@@ -129,10 +147,13 @@ class PhotoCollectionViewController: UIViewController, UICollectionViewDataSourc
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "photoID", ascending: true)]
         fetchRequest.predicate = NSPredicate(format: "pin == %@", self.pin)
         
+        print("\(self.pin.latitude)")
+        
         let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.sharedContext, sectionNameKeyPath: nil, cacheName: nil)
         
         
         print("\(fetchedResultsController.sections)")
+        fetchedResultsController.delegate = self
         
         return fetchedResultsController
         }()
@@ -151,7 +172,7 @@ class PhotoCollectionViewController: UIViewController, UICollectionViewDataSourc
         switch type {
             
         case .Insert:
-            //Are not expecting to add a new photo into the collection
+            insertedIndexPaths.append(newIndexPath!)
             break
         case .Delete:
             print("Delete the photo from the array")
@@ -189,22 +210,112 @@ class PhotoCollectionViewController: UIViewController, UICollectionViewDataSourc
         
         
     }
+    
 
     func testReloadController() {
         
         dispatch_async(dispatch_get_main_queue(), {
-            do {
-                try self.fetchedResultsController.performFetch()
-            } catch let error1 as NSError {
-                
-            }
-            
-            //controllerDidChangeContent(fetchedResultsController)
-            self.collectionView.reloadData()
+            self.reloadData()
 
         })
 
+    }
+    
+    
+    @IBAction func barButtonPressed(sender: AnyObject) {
+        if selectedIndexes.count > 0 {
+            deletedSelectedPhotos()
+            barButtonTitle()
+        } else {
+            deleteOldPhotos()
+            addToCollection()
+        }
         
+    }
+    
+    func deletedSelectedPhotos() {
+        var photosToDelete = [Photo]()
+        
+        for indexPath in selectedIndexes {
+            photosToDelete.append(fetchedResultsController.objectAtIndexPath(indexPath) as! Photo)
+        }
+        
+        for photo in photosToDelete {
+            let imageCache = ImageCache()
+            imageCache.deleteImage(photo.photoID)
+            sharedContext.deleteObject(photo)
+            CoreDataStackManager.sharedInstance().saveContext()
 
+        }
+        
+        selectedIndexes = [NSIndexPath]()
+    }
+    
+
+    func reloadData() {
+        print("Test Reload Data")
+        dispatch_async(dispatch_get_main_queue(), {
+            self.collectionView.reloadItemsAtIndexPaths(self.collectionView.indexPathsForVisibleItems())
+            self.noImages()
+        })
+        
+    }
+    
+    func barButtonTitle () {
+        if selectedIndexes.count > 0 {
+            barButton.setTitle("Remove From Collection", forState: .Normal)
+        } else {
+            barButton.setTitle("Download New Photos", forState: .Normal)
+        }
+    }
+    
+    
+    //MARK: MapKit Delegate
+    
+    func setRegion() {
+        let lanDelta = 0.075
+        let longDelta = 0.075
+        let span = MKCoordinateSpanMake(lanDelta, longDelta)
+        let longitude = CLLocationDegrees(self.pin.longitude)
+        let lattitude = CLLocationDegrees(self.pin.latitude)
+        let coordinate2d = CLLocationCoordinate2D(latitude: lattitude, longitude: longitude)
+        let region2 = MKCoordinateRegion(center: coordinate2d, span: span)
+        mapView.setRegion(region2, animated: false)
+        mapView.scrollEnabled = false
+        mapView.zoomEnabled = false
+        mapView.pitchEnabled = false
+        mapView.rotateEnabled = false
+        
+        
+    }
+    
+    func addPin() {
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(self.pin.latitude), longitude: CLLocationDegrees(self.pin.longitude))
+        mapView.addAnnotation(annotation)
+    }
+    
+    func addToCollection() {
+        let client = VTClient()
+        pin.flickrPage += 1
+        CoreDataStackManager.sharedInstance().saveContext()
+        client.downloadImagesFromFlicker(self.pin.latitude, longitude: self.pin.longitude, page: pin.flickrPage, pin: self.pin) {(success) in
+            self.reloadData()
+        }
+    }
+    
+    func deleteOldPhotos() {
+        for photo in fetchedResultsController.fetchedObjects as! [Photo] {
+            let imageCache = ImageCache()
+            imageCache.deleteImage(photo.photoID)
+            sharedContext.deleteObject(photo)
+            CoreDataStackManager.sharedInstance().saveContext()
+        }
+    }
+    
+    func noImages() {
+        if fetchedResultsController.fetchedObjects?.count < 1 {
+            collectionView.hidden = true
+        }
     }
 }

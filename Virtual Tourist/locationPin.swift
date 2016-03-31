@@ -19,6 +19,7 @@ class LocationPin: NSManagedObject {
     @NSManaged var latitude: Double
     @NSManaged var longitude: Double
     @NSManaged var photoFinishedLoading: Bool
+    @NSManaged var flickrPage: Int
     @NSManaged var photos: [Photo]?
     
     override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {

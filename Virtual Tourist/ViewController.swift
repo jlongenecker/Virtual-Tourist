@@ -21,16 +21,20 @@ class ViewController: UIViewController, MKMapViewDelegate {
     var priorPinLocation: MKAnnotation?
     var updatePin: LocationPin?
     var viewLoaded = false
-    var pinTouched: LocationPin?
-    //var controller = TestViewController()
-    var testController = PhotoCollectionViewController()
+    var pinTouched = false
+    var photoCollectionViewController = PhotoCollectionViewController()
     var ann: MKAnnotation?
+    var movePinEnabled = false
     
     
 
     @IBOutlet weak var map: MKMapView!
+    @IBOutlet weak var moveButtonOutlet: UIButton!
     
     
+    @IBAction func movePinButtonPressed(sender: AnyObject) {
+        movePin()
+    }
 
     //This varibale holds the path for the saved Map.
     var filePathforVisibleMap: String {
@@ -52,10 +56,11 @@ class ViewController: UIViewController, MKMapViewDelegate {
             self.pinArray = self.fetchAllPins()
             self.reloadPins()
         })
-//        //if let ann = ann {
-//            map.deselectAnnotation(ann, animated: false)
-//        //}
+        
+        moveButtonOutlet.hidden = true
+
     }
+
     
     //Cannot load a map position via coordiantes until after the view has loaded otherwise the map will move after loading (not ideal).
     override func viewDidAppear(animated: Bool) {
@@ -68,6 +73,8 @@ class ViewController: UIViewController, MKMapViewDelegate {
         viewLoaded = true
         //map.deselectAnnotation(ann, animated: false)
     }
+    
+
     
     func loadMapPosition() {
         if let setMapView = NSKeyedUnarchiver.unarchiveObjectWithFile(filePathforVisibleMap) {
@@ -115,6 +122,9 @@ class ViewController: UIViewController, MKMapViewDelegate {
     func addPin(gestureRecognizer:UILongPressGestureRecognizer){
         //longPress is necessary to ensure that multiple pins do not drop from a single press.
         if longPress == false {
+            pinTouched = false
+            moveButtonOutlet.hidden = false
+            let flickrPage = 1
             let touchPoint = gestureRecognizer.locationInView(map)
             let newCoordinates = map.convertPoint(touchPoint, toCoordinateFromView: map)
             print("Add Pin \(newCoordinates.latitude)")
@@ -126,6 +136,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
             ]
             
             let pinLocation = LocationPin(dictionary: dictionary, context: sharedContext)
+            pinLocation.flickrPage = flickrPage
             CoreDataStackManager.sharedInstance().saveContext()
 
             let annotation = MKPointAnnotation()
@@ -135,7 +146,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
             longPress = true
             
         //Begins the Virtual Tourist client which takes care of searching FLickr for images and downloading them if they exist. Upon completion of the search, the reloadTestViewController is sent a message to reload and add the images. 
-           VTClient.sharedInstance().downloadImagesFromFlicker(dictionary["latitude"]!, longitude: dictionary["longitude"]!, page: nil, pin: pinLocation) {(success) in
+           VTClient.sharedInstance().downloadImagesFromFlicker(dictionary["latitude"]!, longitude: dictionary["longitude"]!, page: pinLocation.flickrPage, pin: pinLocation) {(success) in
                 self.reloadTestViewController()
             }
             self.pinArray=self.fetchAllPins()
@@ -148,10 +159,13 @@ class ViewController: UIViewController, MKMapViewDelegate {
     
     
     func reloadPins() {
+        
         for pin in pinArray {
             let annotation = MKPointAnnotation()
             annotation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(pin.latitude), longitude: CLLocationDegrees(pin.longitude))
             map.addAnnotation(annotation)
+            moveButtonOutlet.hidden = false
+            print("Pin added")
         }
     }
     
@@ -169,6 +183,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
     }
     
     func updatePinLocationInCoreData(pinLocation: LocationPin, newLocation: MKAnnotation) {
+        let flickrPage = 1
         print("Old pin location latitude \(pinLocation.latitude) and longitude \(pinLocation.longitude)")
         pinLocation.latitude = newLocation.coordinate.latitude
         pinLocation.longitude = newLocation.coordinate.longitude
@@ -182,21 +197,24 @@ class ViewController: UIViewController, MKMapViewDelegate {
             }
         }
         pinLocation.photoFinishedLoading = false
+        pinLocation.flickrPage = flickrPage
         CoreDataStackManager.sharedInstance().saveContext()
         print("Context Saved")
         print("New pin location latitude \(pinLocation.latitude) and longitude \(pinLocation.longitude)")
         print("Pin after being saved \(pinLocation.photos)")
-        VTClient.sharedInstance().downloadImagesFromFlicker(pinLocation.latitude, longitude: pinLocation.longitude, page: nil, pin: pinLocation) {(success) in
+        VTClient.sharedInstance().downloadImagesFromFlicker(pinLocation.latitude, longitude: pinLocation.longitude, page: pinLocation.flickrPage, pin: pinLocation) {(success) in
             self.reloadTestViewController()
         }
     }
     
     
     func reloadTestViewController() {
-        if let pinTouched = self.pinTouched {
+        
+        if pinTouched {
             print("ReloadTestViewController")
            // self.controller.reloadValues(pinTouched)
-            testController.testReloadController()
+            photoCollectionViewController.testReloadController()
+
         } else {
             print("PinTouched never set \(self.pinTouched)")
         }
@@ -242,6 +260,7 @@ class ViewController: UIViewController, MKMapViewDelegate {
         if newState == MKAnnotationViewDragState.Ending {
             let ann = view.annotation
             print("annotation dropped at: \(ann!.coordinate.latitude),\(ann!.coordinate.longitude)")
+            mapView.deselectAnnotation(ann, animated: false)
             if let updatePin = updatePin, ann = ann {
                 updatePinLocationInCoreData(updatePin, newLocation: ann)
             }
@@ -253,31 +272,27 @@ class ViewController: UIViewController, MKMapViewDelegate {
     func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
         
         
-        ann = view.annotation
-        let coordinate = ann?.coordinate
-        let pin = searchForCorrectPin(coordinate!)
-        pinTouched = pin
-        print("Pin Touched")
-        //mapView.deselectAnnotation(view.annotation, animated: false)
-        
-//        controller = self.storyboard?.instantiateViewControllerWithIdentifier("TestViewController") as! TestViewController
-//        controller.pin = pin
-//        let backItem = UIBarButtonItem()
-//        backItem.title = "Back"
-//        navigationItem.backBarButtonItem = backItem
-//        navigationController?.pushViewController(controller, animated: true)
-        
-        
-        testController = self.storyboard?.instantiateViewControllerWithIdentifier("PhotoCollectionViewController") as! PhotoCollectionViewController
-        testController.pin = pin
-        let backItem = UIBarButtonItem()
-        backItem.title = "Back"
-        navigationItem.backBarButtonItem = backItem
-        navigationController?.pushViewController(testController, animated: true)
-        
+        if movePinEnabled {
+            
+        } else {
+            ann = view.annotation
+            let coordinate = ann?.coordinate
+            let pin = searchForCorrectPin(coordinate!)
+            pinTouched = true
+            print("Pin Touched")
+            
+            
+            photoCollectionViewController = self.storyboard?.instantiateViewControllerWithIdentifier("PhotoCollectionViewController") as! PhotoCollectionViewController
+            
+            photoCollectionViewController.pin = pin
+            let backItem = UIBarButtonItem()
+            backItem.title = "Back"
+            navigationItem.backBarButtonItem = backItem
+            navigationController?.pushViewController(photoCollectionViewController, animated: true)
+            mapView.deselectAnnotation(ann, animated: false)
+        }
 
     }
-    
     
     
     func searchForCorrectPin(annotation: CLLocationCoordinate2D)->LocationPin?{
@@ -296,5 +311,14 @@ class ViewController: UIViewController, MKMapViewDelegate {
     }
     
 
+    func movePin() {
+        if movePinEnabled {
+            moveButtonOutlet.setTitle("Move Pin", forState: .Normal)
+            movePinEnabled = false
+        } else {
+            movePinEnabled = true
+            moveButtonOutlet.setTitle("Done", forState: .Normal)
+        }
+    }
 }
 

@@ -16,7 +16,6 @@ extension VTClient {
   
     
     func downloadImagesFromFlicker(latitude: Double, longitude: Double, page: Int?, pin: LocationPin, completionHandler: (success: Bool)->Void) {
-       // dispatch_async(dispatch_get_global_queue(self.priority, 0)) {
             print("Received Location Lattitude\(pin.latitude)")
             self.beginFlickrSearch(latitude, longitude: longitude, page: page) {(success, photoResults, error) in
                 if success {
@@ -39,7 +38,6 @@ extension VTClient {
                     completionHandler(success: true)
                 }
             }
-        //}
         
     }
     

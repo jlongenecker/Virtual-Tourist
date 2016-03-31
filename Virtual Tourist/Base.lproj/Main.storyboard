@@ -46,46 +46,27 @@
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="8EL-55-HIy" secondAttribute="bottom" id="gkO-g2-ZsI"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Virtual Tourist" id="bse-sX-WiB"/>
+                    <navigationItem key="navigationItem" title="Virtual Tourist" id="bse-sX-WiB">
+                        <barButtonItem key="rightBarButtonItem" style="done" id="tsX-y5-0ea">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="b7y-jf-Mz6">
+                                <rect key="frame" x="516" y="7" width="64" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
+                                <state key="normal" title="Move Pin"/>
+                                <connections>
+                                    <action selector="movePinButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="g2f-kx-YE7"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="map" destination="8EL-55-HIy" id="lwg-tg-PGw"/>
+                        <outlet property="moveButtonOutlet" destination="b7y-jf-Mz6" id="y0k-Ot-tMi"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="655" y="444"/>
-        </scene>
-        <!--Test View Controller-->
-        <scene sceneID="hLp-Af-XzU">
-            <objects>
-                <viewController storyboardIdentifier="TestViewController" id="O4d-w8-5iR" customClass="TestViewController" customModule="Virtual_Tourist" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="wyh-hh-9gW"/>
-                        <viewControllerLayoutGuide type="bottom" id="Sz8-O1-xt6"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="Qzd-sO-j82">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="haK-1E-Lv2">
-                                <rect key="frame" x="151" y="191" width="298" height="218"/>
-                            </imageView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="haK-1E-Lv2" firstAttribute="top" secondItem="wyh-hh-9gW" secondAttribute="bottom" constant="171" id="6fe-LM-22M"/>
-                            <constraint firstItem="haK-1E-Lv2" firstAttribute="leading" secondItem="Qzd-sO-j82" secondAttribute="leadingMargin" constant="131" id="BhU-wT-9TO"/>
-                            <constraint firstItem="Sz8-O1-xt6" firstAttribute="top" secondItem="haK-1E-Lv2" secondAttribute="bottom" constant="191" id="YZd-ta-Buq"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="haK-1E-Lv2" secondAttribute="trailing" constant="131" id="gCN-5i-dvs"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="testImageView" destination="haK-1E-Lv2" id="Y9J-Cw-lxj"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ofk-gf-7at" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1340" y="444"/>
         </scene>
         <!--Photo Collection View Controller-->
         <scene sceneID="aQo-yQ-OQp">
@@ -99,11 +80,35 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This pin has no images." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jyY-gD-P4s">
+                                <rect key="frame" x="210" y="289" width="180" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="JK4-Ho-wVR">
                                 <rect key="frame" x="0.0" y="28" width="600" height="136"/>
                             </mapView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xRu-3K-n3R">
+                                <rect key="frame" x="0.0" y="556" width="600" height="44"/>
+                                <items>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="Ghc-Iq-ZPu"/>
+                                    <barButtonItem style="plain" id="VjH-rx-MYl">
+                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="1xW-xv-mBB">
+                                            <rect key="frame" x="212" y="7" width="176" height="30"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal" title="Button"/>
+                                            <connections>
+                                                <action selector="barButtonPressed:" destination="j82-BF-mG2" eventType="touchUpInside" id="SG0-mj-909"/>
+                                            </connections>
+                                        </button>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="NAs-SB-eav"/>
+                                </items>
+                            </toolbar>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="l0r-yR-0nW">
                                 <rect key="frame" x="0.0" y="163" width="600" height="393"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="5Eo-of-Vds">
                                     <size key="itemSize" width="115" height="115"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -140,28 +145,16 @@
                                     <outlet property="delegate" destination="j82-BF-mG2" id="1FW-xI-U2n"/>
                                 </connections>
                             </collectionView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xRu-3K-n3R">
-                                <rect key="frame" x="0.0" y="556" width="600" height="44"/>
-                                <items>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="Ghc-Iq-ZPu"/>
-                                    <barButtonItem style="plain" id="VjH-rx-MYl">
-                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="1xW-xv-mBB">
-                                            <rect key="frame" x="277" y="7" width="46" height="30"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="Button"/>
-                                        </button>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="NAs-SB-eav"/>
-                                </items>
-                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="jyY-gD-P4s" firstAttribute="centerX" secondItem="kPN-yd-Grb" secondAttribute="centerX" id="2wO-Dz-Yhd"/>
                             <constraint firstItem="JK4-Ho-wVR" firstAttribute="top" secondItem="kPN-yd-Grb" secondAttribute="topMargin" constant="28" id="6fh-rt-X2t"/>
+                            <constraint firstItem="l0r-yR-0nW" firstAttribute="top" secondItem="JK4-Ho-wVR" secondAttribute="bottom" constant="-1" id="AHw-M6-oms"/>
+                            <constraint firstItem="jyY-gD-P4s" firstAttribute="centerY" secondItem="kPN-yd-Grb" secondAttribute="centerY" id="FRD-8w-urR"/>
                             <constraint firstItem="sCJ-13-DBv" firstAttribute="top" secondItem="l0r-yR-0nW" secondAttribute="bottom" constant="44" id="LRr-6A-CDa"/>
                             <constraint firstItem="l0r-yR-0nW" firstAttribute="leading" secondItem="kPN-yd-Grb" secondAttribute="leadingMargin" constant="-20" id="Lzd-m2-EHe"/>
                             <constraint firstItem="l0r-yR-0nW" firstAttribute="top" secondItem="GJF-lp-jch" secondAttribute="bottom" constant="143" id="NfH-xt-Anc"/>
-                            <constraint firstItem="xRu-3K-n3R" firstAttribute="top" secondItem="JK4-Ho-wVR" secondAttribute="bottom" constant="392" id="QC7-KL-SAp"/>
                             <constraint firstItem="sCJ-13-DBv" firstAttribute="top" secondItem="xRu-3K-n3R" secondAttribute="bottom" id="Qox-8R-gI8"/>
                             <constraint firstAttribute="trailingMargin" secondItem="JK4-Ho-wVR" secondAttribute="trailing" constant="-20" id="UBe-21-HYv"/>
                             <constraint firstItem="sCJ-13-DBv" firstAttribute="top" secondItem="JK4-Ho-wVR" secondAttribute="bottom" constant="436" id="bMG-kL-xwk"/>
@@ -172,8 +165,9 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="barButton" destination="xRu-3K-n3R" id="qaN-ZX-K2M"/>
+                        <outlet property="barButton" destination="1xW-xv-mBB" id="TwJ-Fp-GQ2"/>
                         <outlet property="collectionView" destination="l0r-yR-0nW" id="OAD-8F-96H"/>
+                        <outlet property="mapView" destination="JK4-Ho-wVR" id="O1H-8Q-4dU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oOZ-Ys-Wc2" userLabel="First Responder" sceneMemberID="firstResponder"/>
