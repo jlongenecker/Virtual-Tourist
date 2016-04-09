@@ -1,7 +1,7 @@
 # Virtual-Tourist
 
 Virtual Tourist is a project built to satisfy Udacity's iOS Nanodegree Lesson 4 [project](https://www.udacity.com/course/ios-persistence-and-core-data--ud325). The app allows a user to drop a pin on
-a map which causes pictures with that pins geolocation to be downloaded in the background. 
+a map. Once the pin is dropped pictures with the corresponding geolation are downloaded from Flickr in the background. 
 
 ## Installation
 
