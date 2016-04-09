@@ -1,7 +1,10 @@
 # Virtual-Tourist
 
-Virtual Tourist is a project built to satisfy Udacity's iOS Nanodegree Lesson 4 [project](https://www.udacity.com/course/ios-persistence-and-core-data--ud325). The app allows a user to drop a pin on
-a map. Once the pin is dropped pictures with the corresponding geolation are downloaded from Flickr in the background. 
+Virtual Tourist is a project built to satisfy Udacity's iOS Nanodegree Lesson 4 [project](https://www.udacity.com/course/ios-persistence-and-core-data--ud325). The app app allows a user to retrieve pictures from the Flick API using geolocation and MapKit.
+
+The Flickr JSON query as well as the process to download the photos are done seamlessly in the background. All photos are saved using NSKeyedArchiver with corresponding photo ids and geolocation saved using Core Data. 
+
+The app is written in Swift and utilizes JSON, MapKit, UIKit, Grand Central Dispatch, Core Data, NSKeyedArchiver and NSURLSession.
 
 ## Installation
 
